@@ -12,16 +12,19 @@ bool filtering(string word) //this will be our filtering function. We will run o
 {
     for(int i = 0; i < whiteListWordSize; i++) //First for is going trough all the white-listed words. If a word in sentence matched with the word in the white-list, we will automatically skip any other filtering measure and leave the word as it is.
     {
-        if(word == wl[i]) return false;
+        if(word == wl[i]) return 0;
     }
     printf("Nije na whitelisti\n");
     for(int i = 0; i < swearWordSize; i++) //This for loop is going to go trough all of our swear words list. If they match 100%, we will not waste time looking further and will automatically flag them.
     {
-        if(word == sw[i]) return true;
+        if(word == sw[i]) return 1;
     }
     printf("Nije na listi psovki\n");
 
     for(int i = 0; i < swearWordSize; i++)
+    {
+
+    }
     return 0;
 }
 
