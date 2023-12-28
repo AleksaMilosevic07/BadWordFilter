@@ -1,10 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 string s, w, swear; //s is our sentence, while w is the word we are looking at
-vector <string> sw = {"Fuck", "Shit", "Bitch", "Cock", "Ass", "Bitch", "nigga", "nigger"}; //This is the ugly part of our code.... Writing out all of the common swears, I am sorry!!!
-vector <string> wl = {"Duck", "Ship", "Beach", "Clock", "Bass", "Grass", "Witch", "Pitch", "Grasses"}; //This is our white-list array. There are lot of swears that look like a swear, with a singular letter changing the meaning. For example, duck. If you would replace the d with f you would get a swear.
+vector <string> sw = {"fuck", "shit", "bitch", "cock", "ass", "bitch", "nigga", "nigger", "fucking", "whore"}; //This is the ugly part of our code.... Writing out all of the common swears, I am sorry!!!
+vector <string> wl = {"duck", "ship", "beach", "clock", "bass", "grass", "witch", "pitch", "whole"}; //This is our white-list array. There are lot of swears that look like a swear, with a singular letter changing the meaning. For example, duck. If you would replace the d with f you would get a swear.
 
-float m, one; //m stands for "Match". We will use this value to see what is the percentage of match with the word. One stands for "one percent". We will use this value to calculate what is one letter match for each swear word.
+int one, m;
 int swearWordSize = sw.size(); //This variable will monitor the size of our swear-list. So in case you add a word, you don't need to worry about updating the array size in the for loop.
 int whiteListWordSize = wl.size(); //This variable will monitor the size of our white-list. So in case you add a word to the white-list, you don't need to worry about updating the array size in the for loop.
 
@@ -14,16 +14,25 @@ bool filtering(string word) //this will be our filtering function. We will run o
     {
         if(word == wl[i]) return 0;
     }
-    printf("Nije na whitelisti\n");
+
     for(int i = 0; i < swearWordSize; i++) //This for loop is going to go trough all of our swear words list. If they match 100%, we will not waste time looking further and will automatically flag them.
     {
         if(word == sw[i]) return 1;
     }
-    printf("Nije na listi psovki\n");
 
     for(int i = 0; i < swearWordSize; i++)
     {
-
+        swear = sw[i];
+        one = 100 / sw[i].size();
+        m = 0;
+        if(word.size() <= swear.size())
+        {
+            for(int k = 0; k < sw[i].size(); k++)
+            {
+                if(word[k] == swear[k]) m+=one;
+            }
+            if(m >= 70) return 1;
+        }
     }
     return 0;
 }
@@ -37,8 +46,13 @@ int main()
     {
         if(s[i] == ' ' or i == s.size())
         {
-            filtering(w);
-            cout<<w<<endl;
+            if(filtering(w) == false) cout<<w<<" ";
+            else
+            {
+                for(int i = 0; i < w.size(); i++) cout<<"#";
+                cout<<" ";
+            }
+
             w.clear();
         }
         else
